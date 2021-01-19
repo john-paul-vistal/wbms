@@ -36,7 +36,10 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = $request->validate();
+
+        $staff = new Staff();
+        $staff->title = $reques
     }
 
     /**

@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionRecords extends Model
 {
     use HasFactory;
+    public $fillable = ['amount_rendered'];
+   
+
+    public function reading(){
+        return $this->belongsTo(Reading::class, 'reading_id' , 'id');
+    }
+
+    public function staff(){
+        return $this->belongsTo(Staff::class, 'transactedBy' , 'id');
+    }
 }
