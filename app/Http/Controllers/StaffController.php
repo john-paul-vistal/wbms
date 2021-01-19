@@ -101,7 +101,7 @@ class StaffController extends Controller
             'contactNumber' => $valid['contactNumber'],
             'address' => $valid['address'],
         ]);
-  
+
         return response("Successfully Updated");
     }
 
