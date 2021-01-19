@@ -15,7 +15,14 @@ class CreateTransactionRecordsTable extends Migration
     {
         Schema::create('transaction_records', function (Blueprint $table) {
             $table->id();
+            $table->integer('reading_id')->unsigned(); //foreign key
+            $table->float('amount_rendered');
+            $table->integer('transactedBy')->unsigned(); // foreign key
             $table->timestamps();
+
+            $table->foreign('reading_id')->references('id')->on('readings');
+            $table->foreign('transactedBy')->references('id')->on('staffs');
+
         });
     }
 
@@ -26,6 +33,9 @@ class CreateTransactionRecordsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_records');
+        Schema::dropIfExists('transaction_records', function(Blueprint $table){
+            $table->dropForeign('reading_id');
+            $table->dropForeign('transactedBy');
+        });
     }
 }

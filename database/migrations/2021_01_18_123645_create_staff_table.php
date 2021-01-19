@@ -22,6 +22,7 @@ class CreateStaffTable extends Migration
             $table->string('gender',50);
             $table->string('usertype',50);
             $table->string('email',80);
+            $table->integer('contactNumber')->unassigned();
             $table->string('address',150);
             $table->timestamps();
         });
