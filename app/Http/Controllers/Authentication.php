@@ -8,6 +8,6 @@ class Authentication extends Controller
 {
     public function login(Request $request)
     {
-        
+        //Login Code here
     }
 }
