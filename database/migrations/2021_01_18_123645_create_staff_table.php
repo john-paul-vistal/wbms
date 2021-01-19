@@ -17,8 +17,8 @@ class CreateStaffTable extends Migration
             $table->id();
             $table->string('username',50)->unique();
             $table->string('password',50);
-            $table->string('firstname',50);
-            $table->string('lastname',50);
+            $table->string('firstName',50);
+            $table->string('lastName',50);
             $table->string('gender',50);
             $table->string('usertype',50);
             $table->string('email',80);

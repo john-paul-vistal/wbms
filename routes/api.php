@@ -20,7 +20,11 @@ use App\Http\Controllers\StaffController;
 //     return $request->user();
 // });
 
+Route::get('/staff',[StaffController::class,'index']);
+Route::get('/staff/show/{staff}',[StaffController::class,'show']);
 Route::post('/staff/create',[StaffController::class,'store']);
+Route::delete('/staff/delete/{staff}',[StaffController::class,'destroy']);
+Route::put('/staff/update/{staff}',[StaffController::class,'update']);
 
 
 

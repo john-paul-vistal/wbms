@@ -14,19 +14,10 @@ class StaffController extends Controller
      */
     public function index()
     {
-       $staff = Staff::all();
+       $staff = Staff::paginate(10);
        return $staff; 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -38,8 +29,8 @@ class StaffController extends Controller
     {
 
         $valid = $request->validate([
-            'firstname'=>'required|min:2|max:30',
-            'lastname'=>'required|min:2|max:30',
+            'firstName'=>'required|min:2|max:30',
+            'lastName'=>'required|min:2|max:30',
             'gender'=>'required',
             'usertype'=>'required',
             'email'=>'required',
@@ -49,11 +40,12 @@ class StaffController extends Controller
 
         $staff = new Staff();
         
+        $username = strtolower($valid['firstName'][0].$valid['lastName'].substr($valid['contactNumber'],8));
 
-        $staff->username = "jvistal";
+        $staff->username = $username;
         $staff->password = "P@ssw0rd";
-        $staff->firstname = $valid['firstname'];
-        $staff->lastname = $valid['lastname'];
+        $staff->firstName = $valid['firstName'];
+        $staff->lastName = $valid['lastName'];
         $staff->gender = $valid['gender'];
         $staff->usertype = $valid['usertype'];
         $staff->email = $valid['email'];
@@ -62,7 +54,7 @@ class StaffController extends Controller
 
         $staff->save();
 
-        return response("Success");
+        return response("Staff Successfully Added!");
     }
 
     /**
@@ -73,19 +65,9 @@ class StaffController extends Controller
      */
     public function show(Staff $staff)
     {
-        //
+        return $staff;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Staff $staff)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -96,7 +78,31 @@ class StaffController extends Controller
      */
     public function update(Request $request, Staff $staff)
     {
-        //
+        $valid = $request->validate([
+            'username'=>'required|min:6|max:30',
+            'password'=>'required|min:6|max:30',
+            'firstName'=>'required|min:2|max:30',
+            'lastName'=>'required|min:2|max:30',
+            'gender'=>'required',
+            'usertype'=>'required',
+            'email'=>'required',
+            'contactNumber'=>'required',
+            'address'=>'required|max:150',
+        ]);
+
+        $staff->update([
+            'username' => $valid['username'],
+            'password' => $valid['password'],
+            'firstName' => $valid['firstName'],
+            'lastName' => $valid['lastName'],
+            'gender' => $valid['gender'],
+            'usertype' => $valid['usertype'],
+            'email' => $valid['email'],
+            'contactNumber' => $valid['contactNumber'],
+            'address' => $valid['address'],
+        ]);
+  
+        return response("Successfully Updated");
     }
 
     /**
@@ -107,6 +113,8 @@ class StaffController extends Controller
      */
     public function destroy(Staff $staff)
     {
-        //
+        $staff->delete();
+
+        return response("Successfully Deleted!");
     }
 }
