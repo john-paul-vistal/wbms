@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\StaffController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/', function () {
-    return "Hello this is  WBMS";
-});
+Route::post('/staff/create',[StaffController::class,'store']);
 
 
 

@@ -17,13 +17,13 @@ class CreateReadingsTable extends Migration
             $table->id();
             $table->float('amount');
             $table->float('cubic');
-            $table->integer('recordedBy')->unsigned(); //foreign key   //userID
-            $table->integer('customer_id')->unsigned(); //foreign key //customerName
-            $table->date();
+            $table->unsignedBigInteger('recordedBy'); //foreign key   //userID
+            $table->unsignedBigInteger('customer_id'); //foreign key //customerName
+            $table->date('due_date');
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customers');
-            $table->foreign('recordedBy')->references('id')->on('staffs');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('recordedBy')->references('id')->on('staffs')->onDelete('cascade');
         });
     }
 

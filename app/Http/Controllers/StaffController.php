@@ -36,10 +36,33 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        $valid = $request->validate();
+
+        $valid = $request->validate([
+            'firstname'=>'required|min:2|max:30',
+            'lastname'=>'required|min:2|max:30',
+            'gender'=>'required',
+            'usertype'=>'required',
+            'email'=>'required',
+            'contactNumber'=>'required',
+            'address'=>'required|max:150',
+        ]);
 
         $staff = new Staff();
-        $staff->title = $reques
+        
+
+        $staff->username = "jvistal";
+        $staff->password = "P@ssw0rd";
+        $staff->firstname = $valid['firstname'];
+        $staff->lastname = $valid['lastname'];
+        $staff->gender = $valid['gender'];
+        $staff->usertype = $valid['usertype'];
+        $staff->email = $valid['email'];
+        $staff->contactNumber = $valid['contactNumber'];
+        $staff->address = $valid['address'];
+
+        $staff->save();
+
+        return response("Success");
     }
 
     /**

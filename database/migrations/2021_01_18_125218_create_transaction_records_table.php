@@ -15,9 +15,9 @@ class CreateTransactionRecordsTable extends Migration
     {
         Schema::create('transaction_records', function (Blueprint $table) {
             $table->id();
-            $table->integer('reading_id')->unsigned(); //foreign key
+            $table->unsignedBigInteger('reading_id'); //foreign key
             $table->float('amount_rendered');
-            $table->integer('transactedBy')->unsigned(); // foreign key
+            $table->unsignedBigInteger('transactedBy'); // foreign key
             $table->timestamps();
 
             $table->foreign('reading_id')->references('id')->on('readings');
