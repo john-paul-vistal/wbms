@@ -14,18 +14,9 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +26,9 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = $request->validate([
+            'waterRate'=>'required'
+        ])
     }
 
     /**
@@ -49,16 +42,6 @@ class SettingsController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Settings  $settings
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Settings $settings)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

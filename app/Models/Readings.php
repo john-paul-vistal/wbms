@@ -11,7 +11,10 @@ class Readings extends Model
 
     public $fillable=[
         'amount',
-        'cubic'
+        'cubic',
+        'recordedBy',
+        'customer_id',
+        'due_date'
     ];
 
 

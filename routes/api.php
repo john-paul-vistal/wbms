@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ReadingsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,4 +39,10 @@ Route::put('/customer/update/{customer}', [CustomerController::class, 'update'])
 //Authentication
 
 
+//Readings
+Route::get('/readings', [ReadingsController::class, 'index']);
+Route::get('/readings/show/{readings}', [ReadingsController::class, 'show']);
+Route::post('/readings/create', [ReadingsController::class, 'store']);
+Route::delete('/readings/delete/{readings}', [ReadingsController::class, 'destroy']);
+Route::put('/readings/update/{readings}', [ReadingsController::class, 'update']);
 

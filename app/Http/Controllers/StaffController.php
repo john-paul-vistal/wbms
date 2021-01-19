@@ -27,34 +27,38 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
+        try{
+            $valid = $request->validate([
+                'firstName'=>'required|min:2|max:30',
+                'lastName'=>'required|min:2|max:30',
+                'gender'=>'required',
+                'usertype'=>'required',
+                'email'=>'required',
+                'contactNumber'=>'required',
+                'address'=>'required|max:150',
+            ]);
 
-        $valid = $request->validate([
-            'firstName'=>'required|min:2|max:30',
-            'lastName'=>'required|min:2|max:30',
-            'gender'=>'required',
-            'usertype'=>'required',
-            'email'=>'required',
-            'contactNumber'=>'required',
-            'address'=>'required|max:150',
-        ]);
+            $staff = new Staff();
+            
+            $username = strtolower($valid['firstName'][0].$valid['lastName'].substr($valid['contactNumber'],8));
 
-        $staff = new Staff();
-        
-        $username = strtolower($valid['firstName'][0].$valid['lastName'].substr($valid['contactNumber'],8));
+            $staff->username = $username;
+            $staff->password = "P@ssw0rd";
+            $staff->firstName = $valid['firstName'];
+            $staff->lastName = $valid['lastName'];
+            $staff->gender = $valid['gender'];
+            $staff->usertype = $valid['usertype'];
+            $staff->email = $valid['email'];
+            $staff->contactNumber = $valid['contactNumber'];
+            $staff->address = $valid['address'];
 
-        $staff->username = $username;
-        $staff->password = "P@ssw0rd";
-        $staff->firstName = $valid['firstName'];
-        $staff->lastName = $valid['lastName'];
-        $staff->gender = $valid['gender'];
-        $staff->usertype = $valid['usertype'];
-        $staff->email = $valid['email'];
-        $staff->contactNumber = $valid['contactNumber'];
-        $staff->address = $valid['address'];
+            $staff->save();
 
-        $staff->save();
+            return response("Staff Successfully Added!");
+        }catch(Exception $e){
+            return $e;
+        }
 
-        return response("Staff Successfully Added!");
     }
 
     /**
