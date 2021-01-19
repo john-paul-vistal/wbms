@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class Authentication extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
-        # code...
+        
     }
 }
