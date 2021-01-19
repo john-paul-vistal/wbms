@@ -33,9 +33,18 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $customer = new Customer();
+        $valid = $request->validate([
+            'firstname'=> 'required|max:30|min:2',
+            'lastname'=> 'required|max:30',
+            'email'=> 'max:80',
+        ]);
+
+        $customer->firstname = $valid['firstname'];
+        $customer->lastname = $valid['lastname'];
+        $customer->email = $valid['email'];
+        $customer->save();
     }
 
     /**
