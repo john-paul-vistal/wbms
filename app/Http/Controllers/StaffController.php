@@ -14,7 +14,8 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+       $staff = Staff::all();
+       return $staff; 
     }
 
     /**
