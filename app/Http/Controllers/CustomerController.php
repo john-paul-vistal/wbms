@@ -14,18 +14,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $users = Customer::paginate(1) ;        
+        return $users;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,17 +26,24 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $customer = new Customer();
+        
+
         $valid = $request->validate([
-            'firstname'=> 'required|max:30|min:2',
-            'lastname'=> 'required|max:30',
+            'firstName'=> 'required|max:30|min:2',
+            'lastName'=> 'required|max:30',
             'email'=> 'max:80',
         ]);
 
-        $customer->firstname = $valid['firstname'];
-        $customer->lastname = $valid['lastname'];
+
+            
+        $customer = new Customer();
+
+        $customer->firstName = $valid['firstName'];
+        $customer->lastName = $valid['lastName'];
         $customer->email = $valid['email'];
+        $customer->contactNumber= $request['contactNumber'];
         $customer->save();
+        return response("Customer Successfully Added");
     }
 
     /**
@@ -53,21 +52,10 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
-    {
-        //
+    public function show(Customer $customer){
+         return $customer;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -78,7 +66,22 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $valid = $request->validate([
+            'firstName'=> 'required|max:30|min:2',
+            'lastName'=> 'required|max:30',
+            'email'=> 'max:80',
+        ]);
+            
+       
+
+        $customer->firstName = $valid['firstName'];
+        $customer->lastName = $valid['lastName'];
+        $customer->email = $valid['email'];
+        $customer->contactNumber= $request['contactNumber'];
+        
+        $customer->save();
+
+        return response("Customer Successfully Updated");
     }
 
     /**
@@ -89,6 +92,9 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+
+      return response("Successfully Deleted!");
+
     }
 }

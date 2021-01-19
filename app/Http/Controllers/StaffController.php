@@ -38,8 +38,8 @@ class StaffController extends Controller
     {
 
         $valid = $request->validate([
-            'firstname'=>'required|min:2|max:30',
-            'lastname'=>'required|min:2|max:30',
+            'firstName'=>'required|min:2|max:30',
+            'lastName'=>'required|min:2|max:30',
             'gender'=>'required',
             'usertype'=>'required',
             'email'=>'required',
@@ -52,8 +52,8 @@ class StaffController extends Controller
 
         $staff->username = "jvistal";
         $staff->password = "P@ssw0rd";
-        $staff->firstname = $valid['firstname'];
-        $staff->lastname = $valid['lastname'];
+        $staff->firstName = $valid['firstName'];
+        $staff->lastName = $valid['lastName'];
         $staff->gender = $valid['gender'];
         $staff->usertype = $valid['usertype'];
         $staff->email = $valid['email'];
