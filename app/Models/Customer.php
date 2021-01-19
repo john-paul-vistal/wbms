@@ -11,15 +11,14 @@ class Customer extends Model
 
     protected $fillable = [
        
-        'firstname',
+        'firstName',
         'lastname',
+        'address',
         'email',
-        'contactNumber'
+        'contactNumber',
+        
     ];
 
-    protected $hidden = [
-        'password'
-    ];
 
   
 }

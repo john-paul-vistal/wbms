@@ -36,7 +36,6 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-
         $valid = $request->validate([
             'firstName'=>'required|min:2|max:30',
             'lastName'=>'required|min:2|max:30',
@@ -49,8 +48,7 @@ class StaffController extends Controller
 
         $staff = new Staff();
         
-
-        $staff->username = "jvistal";
+        $staff->username = 'jvistal';
         $staff->password = "P@ssw0rd";
         $staff->firstName = $valid['firstName'];
         $staff->lastName = $valid['lastName'];

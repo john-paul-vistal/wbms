@@ -31,6 +31,7 @@ class CustomerController extends Controller
         $valid = $request->validate([
             'firstName'=> 'required|max:30|min:2',
             'lastName'=> 'required|max:30',
+            'address'=> 'required|max:150',
             'email'=> 'max:80',
         ]);
 
@@ -40,6 +41,7 @@ class CustomerController extends Controller
 
         $customer->firstName = $valid['firstName'];
         $customer->lastName = $valid['lastName'];
+        $customer->address = $valid['address'];
         $customer->email = $valid['email'];
         $customer->contactNumber= $request['contactNumber'];
         $customer->save();
