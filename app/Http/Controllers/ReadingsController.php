@@ -14,7 +14,7 @@ class ReadingsController extends Controller
      */
     public function index()
     {
-        $readings = Readings()::paginate(10);
+        $readings = Readings::paginate(10);
         return $readings;
     }
 
@@ -27,20 +27,30 @@ class ReadingsController extends Controller
      */
     public function store(Request $request)
     {
-        $valid = $request->validate([
-            'customer_id'=>'required',
-            'cubic'=>'required',
-            'recordedBy'=>'required',
-        ]);
+        try{
+            $valid = $request->validate([
+                'customer_id'=>'required',
+                'cubic'=>'required',
+                'recordedBy'=>'required',
+            ]);
+    
+            $reading = new Readings();
+            
+            $date = new \DateTime();
+            $date->modify('+1 month');
+    
+            $reading->customer_id = $valid['customer_id'];
+            $reading->cubic = $valid['cubic'];
+            $reading->amount = $valid['cubic'] * 0.75;
+            $reading->due_date = $date->format('Y-m-d');
+            $reading->recordedBy = $valid['recordedBy'];
 
-        $reading = new Readings();
+            $reading->save();
 
-
-        $reading->customer_id = $valid['customer_id'];
-        $reading->cubic = $valid['cubic'];
-        $reading->amount = //amount to be calculated
-        $reading->due_date = //duedate to be calculated
-        $reading->recordedBy = $valid['recordedBy'];
+            return response("Saved Successfully!");
+        }catch(Exception $e){
+            return $e;
+        }
 
     }
 

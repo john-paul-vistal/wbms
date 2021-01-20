@@ -14,8 +14,14 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $users = Customer::paginate(10) ;        
-        return $users;
+        try{
+
+            $users = Customer::paginate(10) ;        
+            return $users;
+            
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
 
@@ -26,24 +32,29 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        
-        $valid = $request->validate([
-            'firstName'=>'required|min:2|max:30',
-            'lastName'=>'required|min:2|max:30',
-            'email'=>'max:80'
-        ]);
-        
-        $customer = new Customer();
-        
+        try{
 
-        $customer->firstName = $valid['firstName'];
-        $customer->lastName = $valid['lastName'];
-        $customer->email = $valid['email'];
-        $customer->contactNumber= $request['contactNumber'];
+            $valid = $request->validate([
+                'firstName'=>'required|min:2|max:30',
+                'lastName'=>'required|min:2|max:30',
+                'email'=>'max:80'
+            ]);
+            
+            $customer = new Customer();
+            
 
-        $customer->save();
+            $customer->firstName = $valid['firstName'];
+            $customer->lastName = $valid['lastName'];
+            $customer->email = $valid['email'];
+            $customer->contactNumber= $request['contactNumber'];
 
-        return response("Customer Successfully Added");
+            $customer->save();
+
+            return response("Customer Successfully Added");
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
     /**
@@ -53,7 +64,13 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Customer $customer){
-         return $customer;
+        try{
+
+            return $customer;
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
 
@@ -66,21 +83,26 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        $valid = $request->validate([
-            'firstName'=> 'required|max:30|min:2',
-            'lastName'=> 'required|max:30',
-            'email'=> 'max:80',
-        ]);
-            
-        $customer->update([
-            'firstName' => $valid['firstName'],
-            'lastName' => $valid['lastName'],
-            'email' => $valid['email'],
-            'contactNumber' => $request['contactNumber'],
-        ]);
-            
+        try{
 
-        return response("Customer Successfully Updated");
+            $valid = $request->validate([
+                'firstName'=> 'required|max:30|min:2',
+                'lastName'=> 'required|max:30',
+                'email'=> 'max:80',
+            ]);
+                
+            $customer->update([
+                'firstName' => $valid['firstName'],
+                'lastName' => $valid['lastName'],
+                'email' => $valid['email'],
+                'contactNumber' => $request['contactNumber'],
+            ]);
+                
+            return response("Customer Successfully Updated");
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
     /**
@@ -91,9 +113,14 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $customer->delete();
+        try{
 
-      return response("Successfully Deleted!");
+            $customer->delete();
+            return response("Successfully Deleted!");
+
+        }catch(Exception $e){
+            return $e;
+        }
 
     }
 }
