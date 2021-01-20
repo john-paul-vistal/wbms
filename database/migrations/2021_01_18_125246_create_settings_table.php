@@ -15,7 +15,8 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->float('waterRate');
+            $table->string('settingName');
+            $table->double('value');
             $table->timestamps();
         });
     }

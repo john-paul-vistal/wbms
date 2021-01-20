@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ReadingsController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Authentication;
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +33,7 @@ Route::post('/staff/create',[StaffController::class,'store']);
 Route::delete('/staff/delete/{staff}',[StaffController::class,'destroy']);
 Route::put('/staff/update/{staff}',[StaffController::class,'update']);
 
+
 //Customers Route
 Route::get('/customer', [CustomerController::class, 'index']);
 Route::get('/customer/show/{customer}', [CustomerController::class, 'show']);
@@ -40,13 +41,23 @@ Route::post('/customer/create', [CustomerController::class, 'store']);
 Route::delete('/customer/delete/{customer}', [CustomerController::class, 'destroy']);
 Route::put('/customer/update/{customer}', [CustomerController::class, 'update']);
 
-//Readings
-Route::get('/readings', [ReadingsController::class, 'index']);
-Route::get('/readings/show/{readings}', [ReadingsController::class, 'show']);
-Route::post('/readings/create', [ReadingsController::class, 'store']);
-Route::delete('/readings/delete/{readings}', [ReadingsController::class, 'destroy']);
-Route::put('/readings/update/{readings}', [ReadingsController::class, 'update']);
-Route::get('/readings/show-pending/{id}', [ReadingsController::class, 'showpendings']); 
+
+//settings
+Route::get('/settings', [SettingsController::class, 'index']);
+Route::get('/settings/show/{settings}', [SettingsController::class, 'show']);
+Route::post('/settings/create/', [SettingsController::class, 'store']);
+Route::delete('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
+Route::put('/settings/update/{settings}', [SettingsController::class, 'update']);
+
+
+//Transaction
+Route::get('/transaction', [TransactionController::class, 'index']);
+Route::get('/transaction/show/{transaction}', [TransactionController::class, 'show']);
+Route::post('/transaction/create/', [TransactionController::class, 'store']);
+Route::delete('/transaction/delete/{transaction}', [TransactionController::class, 'destroy']);
+Route::put('/transaction/update/{transaction}', [TransactionController::class, 'update']);
+Route::put('/transaction/pay/{transaction}', [TransactionController::class, 'pay']);
+
 
 
 

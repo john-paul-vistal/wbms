@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionRecords extends Model
 {
     use HasFactory;
-    public $fillable = ['amount_rendered'];
+    public $fillable = [
+        'amount_rendered',
+        'change',
+        'reading_id',
+        'transactedBy'
+    ];
    
 
     public function reading(){

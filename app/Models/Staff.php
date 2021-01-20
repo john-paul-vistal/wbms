@@ -18,7 +18,7 @@ class Staff extends Model
         'firstName',
         'lastName',
         'gender',
-        'userType',
+        'usertype',
         'email',
         'address'
         ];
