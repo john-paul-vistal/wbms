@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ReadingsController;
+use App\Http\Controllers\Authentication;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,9 +18,13 @@ use App\Http\Controllers\ReadingsController;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+//Authentication
+Route::post('/login', [Authentication::class, 'login']);
+
+
+Route::group(['middleware' => 'auth:sanctum'],function(){
+    Route::post('/logout', [Authentication::class, 'logout']);
+});
 
 //Staff Route
 Route::get('/staff',[StaffController::class,'index']);
@@ -35,14 +40,14 @@ Route::post('/customer/create', [CustomerController::class, 'store']);
 Route::delete('/customer/delete/{customer}', [CustomerController::class, 'destroy']);
 Route::put('/customer/update/{customer}', [CustomerController::class, 'update']);
 
-
-//Authentication
-
-
 //Readings
 Route::get('/readings', [ReadingsController::class, 'index']);
 Route::get('/readings/show/{readings}', [ReadingsController::class, 'show']);
 Route::post('/readings/create', [ReadingsController::class, 'store']);
 Route::delete('/readings/delete/{readings}', [ReadingsController::class, 'destroy']);
 Route::put('/readings/update/{readings}', [ReadingsController::class, 'update']);
+Route::get('/readings/show-pending/{id}', [ReadingsController::class, 'showpendings']); 
+
+
+
 

@@ -14,8 +14,14 @@ class ReadingsController extends Controller
      */
     public function index()
     {
-        $readings = Readings::paginate(10);
-        return $readings;
+        try{
+
+            $readings = Readings::paginate(10);
+            return $readings;
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
 
@@ -28,6 +34,7 @@ class ReadingsController extends Controller
     public function store(Request $request)
     {
         try{
+
             $valid = $request->validate([
                 'customer_id'=>'required',
                 'cubic'=>'required',
@@ -48,6 +55,7 @@ class ReadingsController extends Controller
             $reading->save();
 
             return response("Saved Successfully!");
+
         }catch(Exception $e){
             return $e;
         }
@@ -62,7 +70,13 @@ class ReadingsController extends Controller
      */
     public function show(Readings $readings)
     {
-        return $readings;
+        try{
+
+            return $readings;
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
 
@@ -75,18 +89,24 @@ class ReadingsController extends Controller
      */
     public function update(Request $request, Readings $readings)
     {
-        $valid = $request->validate([
-            'customer_id'=>'required',
-            'cubic'=>'required',
-            'recordedBy'=>'required',
-        ]);
+        try{
 
-        $readings->update([
-            'customer_id' => $valid['customer_id'],
-            'cubic' => $valid['cubic'],
-            // 'amount' => //to be calculated
-            'recordedBy' => $valid['recordedBy'],
-        ]);
+            $valid = $request->validate([
+                'cubic'=>'required',
+                'recordedBy'=>'required',
+            ]);
+    
+            $readings->update([
+                'cubic' => $valid['cubic'],
+                'amount' => $valid['cubic'] * 0.75,
+                'recordedBy' => $valid['recordedBy'],
+            ]);
+
+            return response("Successfully Updated!");
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
     /**
@@ -97,6 +117,24 @@ class ReadingsController extends Controller
      */
     public function destroy(Readings $readings)
     {
-        $readings->delete();
+        try{
+
+            $readings->delete();
+
+            return response("Deleted Successfully");
+            
+        }catch(Exception $e){
+            return $e;
+        }
+
     }
+
+    public function showpendings($id)
+    {
+        $readingRecords = Readings::where('customer_id',$id)->get();
+        
+        return $readingRecords;
+    }
+
+
 }
