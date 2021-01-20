@@ -19,7 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('lastName', 30);
             $table->string('address', 150);
             $table->string('email', 80);
-            $table->string('contactNumber');
+            $table->string('contactNumber',11);
             $table->timestamps();
         });
     }

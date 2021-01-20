@@ -14,7 +14,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $users = Customer::paginate(1) ;        
+        $users = Customer::paginate(10) ;        
         return $users;
     }
 
@@ -27,24 +27,24 @@ class CustomerController extends Controller
      */
     public function store(Request $request) {
         
-
         $valid = $request->validate([
             'firstName'=> 'required|max:30|min:2',
             'lastName'=> 'required|max:30',
             'address'=> 'required|max:150',
             'email'=> 'max:80',
         ]);
-
-
-            
+        
         $customer = new Customer();
+        
 
         $customer->firstName = $valid['firstName'];
         $customer->lastName = $valid['lastName'];
         $customer->address = $valid['address'];
         $customer->email = $valid['email'];
         $customer->contactNumber= $request['contactNumber'];
+
         $customer->save();
+
         return response("Customer Successfully Added");
     }
 
@@ -74,14 +74,13 @@ class CustomerController extends Controller
             'email'=> 'max:80',
         ]);
             
-       
-
-        $customer->firstName = $valid['firstName'];
-        $customer->lastName = $valid['lastName'];
-        $customer->email = $valid['email'];
-        $customer->contactNumber= $request['contactNumber'];
-        
-        $customer->save();
+        $customer->update([
+            'firstName' => $valid['firstName'],
+            'lastName' => $valid['lastName'],
+            'email' => $valid['email'],
+            'contactNumber' => $request['contactNumber'],
+        ]);
+            
 
         return response("Customer Successfully Updated");
     }
