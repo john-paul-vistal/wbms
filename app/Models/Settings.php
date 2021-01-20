@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Settings extends Model
 {
     use HasFactory;
-
-    public $fillabe= ['waterRate'];
+    public $fillable= ['waterRate'];
 }

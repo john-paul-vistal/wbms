@@ -14,18 +14,14 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $settings = Settings::all() ;        
+            return $settings;
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +31,17 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            
+            $valid = $request->validate(['waterRate'=>'required']);
+            $settings = new Settings;
+            $settings->waterRate = $valid['waterRate'];
+            $settings->save();
+            return response("Everything is set!");
+        }catch(Exception $e){
+            return $e;
+        }
+
     }
 
     /**
@@ -46,19 +52,9 @@ class SettingsController extends Controller
      */
     public function show(Settings $settings)
     {
-        //
+        return $settings;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Settings  $settings
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Settings $settings)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +65,16 @@ class SettingsController extends Controller
      */
     public function update(Request $request, Settings $settings)
     {
-        //
+        try{
+            $valid = $request->validate(['waterRate'=>'required']);
+
+            $settings->update([
+                'waterRate'=> $valid['waterRate']
+            ]);
+            return response("Successfully Updated");
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
     /**
@@ -80,6 +85,13 @@ class SettingsController extends Controller
      */
     public function destroy(Settings $settings)
     {
-        //
+        try{
+
+            $settings->delete();
+            return response("Successfully Deleted!");
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 }

@@ -14,18 +14,10 @@ class ReadingsController extends Controller
      */
     public function index()
     {
-        //
+        $readings = Readings::paginate(10);
+        return $readings;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +27,31 @@ class ReadingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $valid = $request->validate([
+                'customer_id'=>'required',
+                'cubic'=>'required',
+                'recordedBy'=>'required',
+            ]);
+    
+            $reading = new Readings();
+            
+            $date = new \DateTime();
+            $date->modify('+1 month');
+    
+            $reading->customer_id = $valid['customer_id'];
+            $reading->cubic = $valid['cubic'];
+            $reading->amount = $valid['cubic'] * 0.75;
+            $reading->due_date = $date->format('Y-m-d');
+            $reading->recordedBy = $valid['recordedBy'];
+
+            $reading->save();
+
+            return response("Saved Successfully!");
+        }catch(Exception $e){
+            return $e;
+        }
+
     }
 
     /**
@@ -46,19 +62,9 @@ class ReadingsController extends Controller
      */
     public function show(Readings $readings)
     {
-        //
+        return $readings;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Readings  $readings
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Readings $readings)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +75,18 @@ class ReadingsController extends Controller
      */
     public function update(Request $request, Readings $readings)
     {
-        //
+        $valid = $request->validate([
+            'customer_id'=>'required',
+            'cubic'=>'required',
+            'recordedBy'=>'required',
+        ]);
+
+        $readings->update([
+            'customer_id' => $valid['customer_id'],
+            'cubic' => $valid['cubic'],
+            // 'amount' => //to be calculated
+            'recordedBy' => $valid['recordedBy'],
+        ]);
     }
 
     /**
@@ -80,6 +97,6 @@ class ReadingsController extends Controller
      */
     public function destroy(Readings $readings)
     {
-        //
+        $readings->delete();
     }
 }

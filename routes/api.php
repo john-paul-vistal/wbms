@@ -5,10 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CustomerController;
-
-
-use App\Http\Controllers\LoginController;
-
+use App\Http\Controllers\ReadingsController;
+use App\Http\Controllers\SettingsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,6 +39,20 @@ Route::put('/customer/update/{customer}', [CustomerController::class, 'update'])
 
 //Authentication
 
+
+//Readings
+Route::get('/readings', [ReadingsController::class, 'index']);
+Route::get('/readings/show/{readings}', [ReadingsController::class, 'show']);
+Route::post('/readings/create', [ReadingsController::class, 'store']);
+Route::delete('/readings/delete/{readings}', [ReadingsController::class, 'destroy']);
+Route::put('/readings/update/{readings}', [ReadingsController::class, 'update']);
+
+//settings
+Route::get('/settings', [SettingsController::class, 'index']);
+Route::get('/settings/show/{settings}', [SettingsController::class, 'show']);
+Route::post('/settings/create/waterRate', [SettingsController::class, 'store']);
+Route::delete('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
+Route::put('/settings/update/{settings}', [SettingsController::class, 'update']);
 
 
 

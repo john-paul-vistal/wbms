@@ -14,8 +14,12 @@ class StaffController extends Controller
      */
     public function index()
     {
-       $staff = Staff::paginate(10);
-       return $staff; 
+        try{
+            $staff = Staff::paginate(10);
+            return $staff; 
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
 
@@ -27,33 +31,40 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        $valid = $request->validate([
-            'firstName'=>'required|min:2|max:30',
-            'lastName'=>'required|min:2|max:30',
-            'gender'=>'required',
-            'usertype'=>'required',
-            'email'=>'required',
-            'contactNumber'=>'required',
-            'address'=>'required|max:150',
-        ]);
+        try{
 
-        $staff = new Staff();
-        
-        $username = strtolower($valid['firstName'][0].$valid['lastName'].substr($valid['contactNumber'],8));
+            $valid = $request->validate([
+                'firstName'=>'required|min:2|max:30',
+                'lastName'=>'required|min:2|max:30',
+                'gender'=>'required',
+                'usertype'=>'required',
+                'email'=>'required',
+                'contactNumber'=>'required',
+                'address'=>'required|max:150',
+            ]);
 
-        $staff->username = $username;
-        $staff->password = "P@ssw0rd";
-        $staff->firstName = $valid['firstName'];
-        $staff->lastName = $valid['lastName'];
-        $staff->gender = $valid['gender'];
-        $staff->usertype = $valid['usertype'];
-        $staff->email = $valid['email'];
-        $staff->contactNumber = $valid['contactNumber'];
-        $staff->address = $valid['address'];
+            $staff = new Staff();
+            
+            $username = strtolower($valid['firstName'][0].$valid['lastName'].substr($valid['contactNumber'],8));
 
-        $staff->save();
+            $staff->username = $username;
+            $staff->password = "P@ssw0rd";
+            $staff->firstName = $valid['firstName'];
+            $staff->lastName = $valid['lastName'];
+            $staff->gender = $valid['gender'];
+            $staff->usertype = $valid['usertype'];
+            $staff->email = $valid['email'];
+            $staff->contactNumber = $valid['contactNumber'];
+            $staff->address = $valid['address'];
 
-        return response("Staff Successfully Added!");
+            $staff->save();
+
+            return response("Staff Successfully Added!");
+
+        }catch(Exception $e){
+            return $e;
+        }
+
     }
 
     /**
@@ -64,7 +75,13 @@ class StaffController extends Controller
      */
     public function show(Staff $staff)
     {
-        return $staff;
+        try{
+
+            return $staff;
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
 
@@ -77,32 +94,37 @@ class StaffController extends Controller
      */
     public function update(Request $request, Staff $staff)
     {
-        
-        $valid = $request->validate([
-            'username'=>'required|min:6|max:30',
-            'password'=>'required|min:6|max:30',
-            'firstName'=>'required|min:2|max:30',
-            'lastName'=>'required|min:2|max:30',
-            'gender'=>'required',
-            'usertype'=>'required',
-            'email'=>'required',
-            'contactNumber'=>'required',
-            'address'=>'required|max:150',
-        ]);
-        
-            
-        $staff->update([
-            'username' => $valid['username'],
-            'password' => $valid['password'],
-            'firstName' => $valid['firstName'],
-            'lastName' => $valid['lastName'],
-            'gender' => $valid['gender'],
-            'usertype' => $valid['usertype'],
-            'email' => $valid['email'],
-            'contactNumber' => $valid['contactNumber'],
-            'address' => $valid['address'],
-        ]);
-        return response("Successfully Updated");
+        try{
+
+            $valid = $request->validate([
+                'username'=>'required|min:6|max:30',
+                'password'=>'required|min:6|max:30',
+                'firstName'=>'required|min:2|max:30',
+                'lastName'=>'required|min:2|max:30',
+                'gender'=>'required',
+                'usertype'=>'required',
+                'email'=>'required',
+                'contactNumber'=>'required',
+                'address'=>'required|max:150',
+            ]);
+
+            $staff->update([
+                'username' => $valid['username'],
+                'password' => $valid['password'],
+                'firstName' => $valid['firstName'],
+                'lastName' => $valid['lastName'],
+                'gender' => $valid['gender'],
+                'usertype' => $valid['usertype'],
+                'email' => $valid['email'],
+                'contactNumber' => $valid['contactNumber'],
+                'address' => $valid['address'],
+            ]);
+
+            return response("Successfully Updated");
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
     /**
@@ -113,8 +135,14 @@ class StaffController extends Controller
      */
     public function destroy(Staff $staff)
     {
-        $staff->delete();
+        try{
 
-        return response("Successfully Deleted!");
+            $staff->delete();
+    
+            return response("Successfully Deleted!");
+            
+        }catch(Exception $e){
+            return $e;
+        }
     }
 }
