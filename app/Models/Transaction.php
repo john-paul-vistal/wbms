@@ -33,7 +33,7 @@ class Transaction extends Model
     }
 
     public function transactedBy(){
-        return $this->belongsTo(Staff::class, 'transacted_by' , 'id');
+        return $this->belongsTo(Staff::class, 'transactedBy' , 'id');
     }
 
 

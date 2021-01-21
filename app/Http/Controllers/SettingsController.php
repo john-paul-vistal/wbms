@@ -42,7 +42,9 @@ class SettingsController extends Controller
             $settings->settingName = $valid['settingName'];
             $settings->value = $valid['value'];
             $settings->save();
-            return response(`$settings->settingName is set`);
+
+            return response("$settings->settingName is set");
+
         }catch(Exception $e){
             return $e;
         }
@@ -57,7 +59,13 @@ class SettingsController extends Controller
      */
     public function show(Settings $settings)
     {
-        return $settings;
+        try{
+
+            return $settings;
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
 
@@ -72,15 +80,19 @@ class SettingsController extends Controller
     {
         try{
             $valid = $request->validate([
+
                 'settingName'=>'required',
                 'value'=>'required'
+
             ]);
 
             $settings->update([
                 'settingName'=> $valid['settingName'],
                 'value'=> $valid['value']
             ]);
-            return response(`$settings->settingName updated successfully!`);
+
+            return response("$settings->settingName updated successfully!");
+
         }catch(Exception $e){
             return $e;
         }
@@ -97,6 +109,7 @@ class SettingsController extends Controller
         try{
 
             $settings->delete();
+            
             return response("Successfully Deleted!");
 
         }catch(Exception $e){

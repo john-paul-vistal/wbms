@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Authentication;
 /*
 |--------------------------------------------------------------------------
@@ -22,15 +23,33 @@ use App\Http\Controllers\Authentication;
 Route::post('/login', [Authentication::class, 'login']);
 
 
-Route::group(['middleware' => 'auth:sanctum'],function(){
+Route::group(['middleware' => ['auth:sanctum']],function(){
     Route::post('/logout', [Authentication::class, 'logout']);
 });
 
-//Staff Route
-Route::get('/staff',[StaffController::class,'index']);
+Route::group(['middleware' => ['auth:sanctum','isadmin']],function(){
+
+    //settings
+
+    //Staff Route
+    Route::get('/staff',[StaffController::class,'index']);
+    Route::post('/staff/create',[StaffController::class,'store']);
+    Route::delete('/staff/delete/{staff}',[StaffController::class,'destroy']);
+
+
+});
+
+
+//Settings
+Route::get('/settings', [SettingsController::class, 'index']);
+Route::get('/settings/show/{settings}', [SettingsController::class, 'show']);
+Route::post('/settings/create/', [SettingsController::class, 'store']);
+Route::delete('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
+Route::put('/settings/update/{settings}', [SettingsController::class, 'update']);
+
+
+//Unguarded Rute for Staff
 Route::get('/staff/show/{staff}',[StaffController::class,'show']);
-Route::post('/staff/create',[StaffController::class,'store']);
-Route::delete('/staff/delete/{staff}',[StaffController::class,'destroy']);
 Route::put('/staff/update/{staff}',[StaffController::class,'update']);
 
 
@@ -41,13 +60,6 @@ Route::post('/customer/create', [CustomerController::class, 'store']);
 Route::delete('/customer/delete/{customer}', [CustomerController::class, 'destroy']);
 Route::put('/customer/update/{customer}', [CustomerController::class, 'update']);
 
-
-//settings
-Route::get('/settings', [SettingsController::class, 'index']);
-Route::get('/settings/show/{settings}', [SettingsController::class, 'show']);
-Route::post('/settings/create/', [SettingsController::class, 'store']);
-Route::delete('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
-Route::put('/settings/update/{settings}', [SettingsController::class, 'update']);
 
 
 //Transaction

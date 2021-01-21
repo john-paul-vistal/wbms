@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Settings;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -16,7 +17,7 @@ class TransactionController extends Controller
     {
         try{
 
-            $transactions = Transaction::paginate(10);
+            $transactions = Transaction::with('customer')->with('recordedBy')->with('transactedBy')->paginate(10);
     
             return $transactions;
 
@@ -46,11 +47,12 @@ class TransactionController extends Controller
             $transaction = new Transaction();
                 
             $date = new \DateTime( $valid['reading_date']);
-            
+
+            $settings = Settings::where('settingName','waterRate')->first();
 
             $transaction->customer_id = $valid['customer_id'];
             $transaction->meterReading = $valid['meterReading'];
-            $transaction->total_amount = $valid['meterReading']*0.56;
+            $transaction->total_amount = $valid['meterReading']*$settings['value'];
             $transaction->reading_date = $valid['reading_date'];
             $transaction->due_date = $date->modify('+1 month');
             $transaction->recordedBy = $valid['recordedBy'];
@@ -99,10 +101,11 @@ class TransactionController extends Controller
             ]);
 
             $date = new \DateTime( $valid['reading_date']);
+            $settings = Settings::where('settingName','waterRate')->first();
 
             $transaction->update([
                 'meterReading' => $valid['meterReading'],
-                'total_amount' => $valid['meterReading']*0.56,
+                'total_amount' => $valid['meterReading']*$settings['value'],
                 'reading_date' => $valid['reading_date'],
                 'due_date' => $date->modify('+1 month'),
                 'recordedBy' => $valid['recordedBy'],
@@ -166,7 +169,7 @@ class TransactionController extends Controller
     public function showTransactions($id)
     {
        try{
-            $transactions = Transaction::where('customer_id',$id)->get();
+            $transactions = Transaction::where('customer_id',$id)->with('customer')->with('recordedBy')->with('transactedBy')->get();
             return $transactions;
        }catch(Exceptin $e){
            return $e;
