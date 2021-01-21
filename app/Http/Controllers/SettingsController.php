@@ -33,11 +33,16 @@ class SettingsController extends Controller
     {
         try{
             
-            $valid = $request->validate(['waterRate'=>'required']);
+            $valid = $request->validate([
+                'settingName'=>'required',
+                'value'=>'required'
+            ]);
+
             $settings = new Settings;
-            $settings->waterRate = $valid['waterRate'];
+            $settings->settingName = $valid['settingName'];
+            $settings->value = $valid['value'];
             $settings->save();
-            return response("Everything is set!");
+            return response(`$settings->settingName is set`);
         }catch(Exception $e){
             return $e;
         }
@@ -66,12 +71,16 @@ class SettingsController extends Controller
     public function update(Request $request, Settings $settings)
     {
         try{
-            $valid = $request->validate(['waterRate'=>'required']);
+            $valid = $request->validate([
+                'settingName'=>'required',
+                'value'=>'required'
+            ]);
 
             $settings->update([
-                'waterRate'=> $valid['waterRate']
+                'settingName'=> $valid['settingName'],
+                'value'=> $valid['value']
             ]);
-            return response("Successfully Updated");
+            return response(`$settings->settingName updated successfully!`);
         }catch(Exception $e){
             return $e;
         }
