@@ -90,6 +90,7 @@ class CustomerController extends Controller
             $valid = $request->validate([
                 'firstName'=> 'required|max:30|min:2',
                 'lastName'=> 'required|max:30',
+                'address'=> 'required|max:150',
                 'email'=> 'max:80',
             ]);
                 
@@ -97,6 +98,7 @@ class CustomerController extends Controller
                 'firstName' => $valid['firstName'],
                 'lastName' => $valid['lastName'],
                 'email' => $valid['email'],
+                'address' => $valid['address'],
                 'contactNumber' => $request['contactNumber'],
             ]);
                 
