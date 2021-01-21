@@ -53,6 +53,7 @@ Route::put('/settings/update/{settings}', [SettingsController::class, 'update'])
 //Transaction
 Route::get('/transaction', [TransactionController::class, 'index']);
 Route::get('/transaction/show/{transaction}', [TransactionController::class, 'show']);
+Route::get('/transaction/show-transactions/{id}', [TransactionController::class, 'showTransactions']);
 Route::post('/transaction/create/', [TransactionController::class, 'store']);
 Route::delete('/transaction/delete/{transaction}', [TransactionController::class, 'destroy']);
 Route::put('/transaction/update/{transaction}', [TransactionController::class, 'update']);

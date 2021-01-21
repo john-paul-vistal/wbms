@@ -162,4 +162,16 @@ class TransactionController extends Controller
             return $e;
         }
     }
+
+    public function showTransactions($id)
+    {
+       try{
+            $transactions = Transaction::where('customer_id',$id)->get();
+            return $transactions;
+       }catch(Exceptin $e){
+           return $e;
+       }
+
+
+    }
 }
