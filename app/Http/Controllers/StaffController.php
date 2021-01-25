@@ -59,7 +59,13 @@ class StaffController extends Controller
 
             $staff->save();
 
-            return response("Staff Successfully Added!");
+            $response = [
+                'message' => "Staff Successfully Added!",
+                'status' => 200
+            ];
+
+            return $response;
+           
 
         }catch(Exception $e){
             return $e;
@@ -97,7 +103,13 @@ class StaffController extends Controller
 
             $staff->save();
 
-            return response("Staff Successfully Added!");
+
+            $response = [
+                'message' => "Staff Successfully Added!",
+                'status' => 200
+            ];
+
+            return $response;
 
         }catch(Exception $e){
             return $e;
@@ -158,7 +170,13 @@ class StaffController extends Controller
                 'address' => $valid['address'],
             ]);
 
-            return response("Successfully Updated");
+
+            $response = [
+                'message' => "Staff Successfully Updated!",
+                'status' => 200
+            ];
+
+            return $response;
 
         }catch(Exception $e){
             return $e;
@@ -176,8 +194,13 @@ class StaffController extends Controller
         try{
 
             $staff->delete();
-    
-            return response("Successfully Deleted!");
+            
+            $response = [
+                'message' => "Staff Successfully Deleted!",
+                'status' => 200
+            ];
+
+            return $response;
             
         }catch(Exception $e){
             return $e;

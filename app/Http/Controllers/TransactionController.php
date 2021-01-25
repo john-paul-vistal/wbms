@@ -158,8 +158,13 @@ class TransactionController extends Controller
                     'ispaid'=>true,
                     'transactedDate'=>  $date 
                 ]);
+                    
+                $response = [
+                    'message' => "Paid Successfully",
+                    'status' => 200
+                ];
     
-                return response("Paid Successfully!");
+                return $response;
 
             }
             
@@ -183,7 +188,7 @@ class TransactionController extends Controller
         try{
             $transactions = Transaction::where('ispaid',false)->with('customer')->with('recordedBy')->with('transactedBy')->get();
             return $transactions;
-       }catch(Exceptin $e){
+       }catch(Exception $e){
            return $e;
        }
     }
@@ -196,5 +201,63 @@ class TransactionController extends Controller
        }catch(Exceptin $e){
            return $e;
        }
+    }
+
+   
+
+    public function getDataMonthly(){
+        try{
+
+            $transaction = Transaction::where('ispaid', true)->get()
+            ->groupBy(function($value){
+                return $value['created_at']->format('Y');
+            })->mapToGroups(function($value,$key){
+                return [
+                    $key => $value ->groupBy(function($value){
+                        return $value['created_at']->format('m');
+                    })->mapToGroups(function($value,$key){
+                        return [$key => $value->sum('total_amount')];
+                    })
+                    ->map(function($transactions){
+                        return $transactions->first();
+                    })->sortDesc()
+                ];
+            })->map(function($transactions){
+                return $transactions->first();
+            })->sortDesc();
+    
+            return response()->json($transaction);
+
+        }catch(Exception $e){
+            return $e;
+        }
+    }
+
+    public function getDataMonthlyByCustomer(Request $request){
+        try{
+            $customer_id = $request->customer_id;
+            $transaction = Transaction::where('customer_id', $customer_id )->get()
+            ->groupBy(function($value){
+                return $value['created_at']->format('Y');
+            })->mapToGroups(function($value,$key){
+                return [
+                    $key => $value ->groupBy(function($value){
+                        return $value['created_at']->format('m');
+                    })->mapToGroups(function($value,$key){
+                        return [$key => $value->sum('total_amount')];
+                    })
+                    ->map(function($transactions){
+                        return $transactions->first();
+                    })->sortDesc()
+                ];
+            })->map(function($transactions){
+                return $transactions->first();
+            })->sortDesc();
+    
+            return response()->json($transaction);
+
+        }catch(Exception $e){
+            return $e;
+        }
     }
 }

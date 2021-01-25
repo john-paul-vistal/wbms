@@ -50,7 +50,13 @@ class CustomerController extends Controller
 
             $customer->save();
 
-            return response("Customer Successfully Added");
+            $response = [
+                'message' => "Customer Successfully Added",
+                'status' => 200
+            ];
+
+            return $response;
+         
 
         }catch(Exception $e){
             return $e;
@@ -99,8 +105,15 @@ class CustomerController extends Controller
                 'address' => $valid['address'],
                 'contactNumber' => $request['contactNumber'],
             ]);
-                
-            return response("Customer Successfully Updated");
+             
+            
+            $response = [
+                'message' => "Customer Successfully Updated",
+                'status' => 200
+            ];
+
+            return $response;
+           
 
         }catch(Exception $e){
             return $e;
@@ -118,7 +131,13 @@ class CustomerController extends Controller
         try{
 
             $customer->delete();
-            return response("Successfully Deleted!");
+            $response = [
+                'message' => "Customer Successfully Deleted",
+                'status' => 200
+            ];
+
+            return $response;
+           
 
         }catch(Exception $e){
             return $e;

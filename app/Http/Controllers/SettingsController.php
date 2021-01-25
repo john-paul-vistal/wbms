@@ -32,7 +32,6 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
         try{
-            
             $valid = $request->validate([
                 'settingName'=>'required',
                 'value'=>'required'
@@ -43,7 +42,13 @@ class SettingsController extends Controller
             $settings->value = $valid['value'];
             $settings->save();
 
-            return response("$settings->settingName is set");
+            $response = [
+                'message' => "$settings->settingName is set",
+                'status' => 200
+            ];
+
+            return $response;
+            
 
         }catch(Exception $e){
             return $e;
@@ -91,7 +96,13 @@ class SettingsController extends Controller
                 'value'=> $valid['value']
             ]);
 
-            return response("$settings->settingName updated successfully!");
+            $response = [
+                'message' => "$settings->settingName updated successfully!",
+                'status' => 200
+            ];
+
+            return $response;
+          
 
         }catch(Exception $e){
             return $e;
@@ -110,8 +121,13 @@ class SettingsController extends Controller
 
             $settings->delete();
             
-            return response("Successfully Deleted!");
+            $response = [
+                'message' => "Successfully Deleted!",
+                'status' => 200
+            ];
 
+            return $response;
+            
         }catch(Exception $e){
             return $e;
         }

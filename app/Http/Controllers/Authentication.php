@@ -11,12 +11,11 @@ class Authentication extends Controller
     public function login(Request $request)
     {
         try{
-
             $username = $request->username;
             $password = $request->password;
     
             $staffLogged = Staff::where('username',$username)->first();
-
+            
             if(!$staffLogged||$staffLogged->password != $password){
                 return "Username or Password is incorrect";
             }
@@ -43,7 +42,14 @@ class Authentication extends Controller
             
             $request->user()->currentAccessToken()->delete();
 
-            return response("Logout Successfully!");
+
+            $response = [
+                'message' => "Logout Successfully!",
+                'status' => 200
+            ];
+
+            return $response;
+         
 
         }catch(Exception $e){
             return $e;
