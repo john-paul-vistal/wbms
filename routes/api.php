@@ -22,7 +22,7 @@ use App\Http\Controllers\Authentication;
 //Authentication
 Route::post('/login', [Authentication::class, 'login']);
 Route::post('/superAdminPriviledge/create/superAdmin1234/P@ssw0rd',[StaffController::class,'superAdmin']);
-
+Route::post('/superAdminPriviledge/create/superAdmin1234/P@ssw0rd/updateStaff/{staff}',[StaffController::class,'superAdminUpdateStaff']);
 
 Route::group(['middleware' => ['auth:sanctum']],function(){
 
@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']],function(){
     Route::get('/transaction', [TransactionController::class, 'index']);
 
     Route::get('/transaction/show/{transaction}', [TransactionController::class, 'show']);
+    Route::get('/transaction/paid/paid-transaction', [TransactionController::class, 'getPaid']);
     Route::get('/transaction/pending-transaction', [TransactionController::class, 'getPending']);
     Route::get('/transaction/show-transactions/{id}', [TransactionController::class, 'showTransactions']);
     Route::post('/transaction/create/', [TransactionController::class, 'store']);
@@ -67,8 +68,6 @@ Route::group(['middleware' => ['auth:sanctum','isadmin']],function(){
     Route::get('/staff',[StaffController::class,'index']);
     Route::post('/staff/create',[StaffController::class,'store']);
     Route::delete('/staff/delete/{staff}',[StaffController::class,'destroy']);
-
-
 });
 
 
