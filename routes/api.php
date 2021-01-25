@@ -43,16 +43,13 @@ Route::group(['middleware' => ['auth:sanctum']],function(){
     Route::get('/transaction', [TransactionController::class, 'index']);
 
     Route::get('/transaction/show/{transaction}', [TransactionController::class, 'show']);
-    Route::get('/transaction/paid/paid-transaction', [TransactionController::class, 'getPaid']);
+    Route::get('/transaction/paid-transaction', [TransactionController::class, 'getPaid']);
     Route::get('/transaction/pending-transaction', [TransactionController::class, 'getPending']);
     Route::get('/transaction/show-transactions/{id}', [TransactionController::class, 'showTransactions']);
     Route::post('/transaction/create/', [TransactionController::class, 'store']);
     Route::delete('/transaction/delete/{transaction}', [TransactionController::class, 'destroy']);
     Route::put('/transaction/update/{transaction}', [TransactionController::class, 'update']);
     Route::put('/transaction/pay/{transaction}', [TransactionController::class, 'pay']);
-    
-
-
 });
 
 Route::group(['middleware' => ['auth:sanctum','isadmin']],function(){

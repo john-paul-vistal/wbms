@@ -159,7 +159,7 @@ class TransactionController extends Controller
                     'transactedDate'=>  $date 
                 ]);
     
-                return response("Payed Successfully!");
+                return response("Paid Successfully!");
 
             }
             
