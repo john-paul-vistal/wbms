@@ -17,7 +17,7 @@ class TransactionController extends Controller
     {
         try{
 
-            $transactions = Transaction::with('customer')->with('recordedBy')->with('transactedBy')->all();
+            $transactions = Transaction::with('customer',"recordedBy","transactedBy")->get();
     
             return $transactions;
 
