@@ -174,7 +174,5 @@ class TransactionController extends Controller
        }catch(Exceptin $e){
            return $e;
        }
-
-
     }
 }
