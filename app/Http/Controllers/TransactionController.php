@@ -177,4 +177,14 @@ class TransactionController extends Controller
 
 
     }
+
+     public function getPending()
+    {
+        try{
+            $transactions = Transaction::where('ispaid',false)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            return $transactions;
+       }catch(Exceptin $e){
+           return $e;
+       }
+    }
 }
