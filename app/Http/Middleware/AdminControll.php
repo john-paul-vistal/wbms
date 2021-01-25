@@ -17,7 +17,7 @@ class AdminControll
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->user()['usertype'] == "Admin"){
+        if($request->user()['usertype'] == "ADMIN"){
             return $next($request);
         }
     }

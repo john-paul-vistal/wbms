@@ -15,10 +15,8 @@ class CustomerController extends Controller
     public function index()
     {
         try{
-
-            $users = Customer::paginate(10) ;        
+            $users = Customer::all();        
             return $users;
-            
         }catch(Exception $e){
             return $e;
         }

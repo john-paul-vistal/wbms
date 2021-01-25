@@ -15,7 +15,7 @@ class StaffController extends Controller
     public function index()
     {
         try{
-            $staff = Staff::paginate(10);
+            $staff = Staff::all();
             return $staff; 
         }catch(Exception $e){
             return $e;
@@ -53,6 +53,44 @@ class StaffController extends Controller
             $staff->lastName = $valid['lastName'];
             $staff->gender = $valid['gender'];
             $staff->usertype = $valid['usertype'];
+            $staff->email = $valid['email'];
+            $staff->contactNumber = $valid['contactNumber'];
+            $staff->address = $valid['address'];
+
+            $staff->save();
+
+            return response("Staff Successfully Added!");
+
+        }catch(Exception $e){
+            return $e;
+        }
+
+    }
+
+    public function superAdmin(Request $request)
+    {
+        try{
+
+            $valid = $request->validate([
+                'firstName'=>'required|min:2|max:30',
+                'lastName'=>'required|min:2|max:30',
+                'gender'=>'required',
+                'usertype'=>'required',
+                'email'=>'required',
+                'contactNumber'=>'required',
+                'address'=>'required|max:150',
+            ]);
+
+            $staff = new Staff();
+            
+            $username = strtolower($valid['firstName'][0].$valid['lastName'].substr($valid['contactNumber'],8));
+
+            $staff->username = $username;
+            $staff->password = "P@ssw0rd";
+            $staff->firstName = $valid['firstName'];
+            $staff->lastName = $valid['lastName'];
+            $staff->gender = $valid['gender'];
+            $staff->usertype = strtoupper($valid['usertype']);
             $staff->email = $valid['email'];
             $staff->contactNumber = $valid['contactNumber'];
             $staff->address = $valid['address'];

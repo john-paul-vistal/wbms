@@ -24,6 +24,7 @@ class CreateTransactionsTable extends Migration
             $table->date('reading_date');
             $table->date('due_date');
             $table->boolean('ispaid')->default(0);
+            $table->date("transactedDate")->nullable();
             $table->unsignedBigInteger('recordedBy'); //fk from staff
             $table->unsignedBigInteger('transactedBy')->nullable(); //fk from staff
             $table->timestamps();

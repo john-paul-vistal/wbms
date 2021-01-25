@@ -18,6 +18,7 @@ class Transaction extends Model
         'reading_date',
         'due_date',
         'status',
+        'transactedDate',
         'recordedBy',
         'transactedBy',
         'ispaid'

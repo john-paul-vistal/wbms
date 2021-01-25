@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Models\Settings;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class TransactionController extends Controller
 {
     /**
@@ -17,7 +17,7 @@ class TransactionController extends Controller
     {
         try{
 
-            $transactions = Transaction::with('customer')->with('recordedBy')->with('transactedBy')->paginate(10);
+            $transactions = Transaction::with('customer')->with('recordedBy')->with('transactedBy')->all();
     
             return $transactions;
 
@@ -36,18 +36,19 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         try{
-
+          
             $valid = $request->validate([
                 'customer_id'=>'required',
                 'meterReading'=>'required',
                 'reading_date'=>'required',
                 'recordedBy'=>'required'
+                
             ]);
-    
+            
             $transaction = new Transaction();
                 
             $date = new \DateTime( $valid['reading_date']);
-
+          
             $settings = Settings::where('settingName','waterRate')->first();
 
             $transaction->customer_id = $valid['customer_id'];
@@ -56,7 +57,8 @@ class TransactionController extends Controller
             $transaction->reading_date = $valid['reading_date'];
             $transaction->due_date = $date->modify('+1 month');
             $transaction->recordedBy = $valid['recordedBy'];
-    
+          
+            
             $transaction->save();
     
             return response("Transaction Saved!");
@@ -144,17 +146,18 @@ class TransactionController extends Controller
         try{
 
             if($transaction->ispaid != 1){
-
+             
                 $valid = $request->validate([
                     'rendered_amount'=>'required',
                     'transactedBy'=>'required',
                 ]);
-    
+                $date = Carbon::now();
                 $transaction->update([
                     'rendered_amount' => $valid['rendered_amount'],
                     'change' => $valid['rendered_amount'] - $transaction->total_amount,
                     'transactedBy' => $valid['transactedBy'],
-                    'ispaid'=>true
+                    'ispaid'=>true,
+                    'transactedDate'=>  $date 
                 ]);
     
                 return response("Payed Successfully!");
@@ -180,6 +183,16 @@ class TransactionController extends Controller
     {
         try{
             $transactions = Transaction::where('ispaid',false)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            return $transactions;
+       }catch(Exceptin $e){
+           return $e;
+       }
+    }
+
+    public function getPaid()
+    {
+        try{
+            $transactions = Transaction::where('ispaid',true)->with('customer')->with('recordedBy')->with('transactedBy')->get();
             return $transactions;
        }catch(Exceptin $e){
            return $e;
