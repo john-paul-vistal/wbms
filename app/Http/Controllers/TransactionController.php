@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Settings;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 class TransactionController extends Controller
@@ -50,6 +51,10 @@ class TransactionController extends Controller
           
             $settings = Settings::where('settingName','waterRate')->first();
 
+            $customer = Customer::where('id',$valid['customer_id'])->first();
+
+            if($customer){
+
             $transaction->customer_id = $valid['customer_id'];
             $transaction->meterReading = $valid['meterReading'];
             $transaction->total_amount = $valid['meterReading']*$settings['value'];
@@ -59,9 +64,22 @@ class TransactionController extends Controller
           
             
             $transaction->save();
-    
-            return response("Transaction Saved!");
+            
+            $response = [
+                'message' => "Transaction Saved!",
+                'status' => 200
+            ];
 
+            return response($response);
+            }
+
+            $response = [
+                'message' => "Customer Not Found",
+                'status' => 300
+            ];
+
+            return response($response);
+            
         }catch(Exception $e){
             return $e;
         }
@@ -193,6 +211,17 @@ class TransactionController extends Controller
        }
     }
 
+    public function getPendingSpecific(Request $request)
+    {
+        try{
+            $customer_id = $request->customer_id;
+            $transactions = Transaction::where('ispaid',false)->where('customer_id', $customer_id)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            return $transactions;
+       }catch(Exception $e){
+           return $e;
+       }
+    }
+
     public function getPaid()
     {
         try{
@@ -203,6 +232,16 @@ class TransactionController extends Controller
        }
     }
 
+    public function getPaidSpecific()
+    {
+        try{
+            $customer_id = $request->customer_id;
+            $transactions = Transaction::where('ispaid',true)->where('customer_id', $customer_id)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            return $transactions;
+       }catch(Exceptin $e){
+           return $e;
+       }
+    }
    
 
     public function getDataMonthly(){

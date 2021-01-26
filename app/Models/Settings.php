@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Settings extends Model
 {
     use HasFactory;
-    public $fillable= ['settingName','value'];
+    public $fillable= ['settingName','value',"deleted_at"];
 }

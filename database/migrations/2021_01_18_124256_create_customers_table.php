@@ -17,9 +17,11 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('firstName', 30);
             $table->string('lastName', 30);
+            $table->string('middleName', 30);
             $table->string('address', 150);
             $table->string('email', 80);
             $table->string('contactNumber',11);
+            $table->date('deleted_at')->nullable();
             $table->timestamps();
         });
     }

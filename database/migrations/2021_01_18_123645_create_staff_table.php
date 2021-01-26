@@ -19,11 +19,13 @@ class CreateStaffTable extends Migration
             $table->string('password',50);
             $table->string('firstName',50);
             $table->string('lastName',50);
+            $table->string('middleName',50);
             $table->string('gender',50);
             $table->string('usertype',50);
             $table->string('email',80);
             $table->string('contactNumber',15);
             $table->string('address',150);
+            $table->date('deleted_at')->nullable();
             $table->timestamps();
         });
     }

@@ -13,9 +13,11 @@ class Customer extends Model
        
         'firstName',
         'lastName',
+        'middleName',
         'address',
         'email',
         'contactNumber',
+        'deleted_at',
         
     ];
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class StaffController extends Controller
 {
@@ -15,7 +16,7 @@ class StaffController extends Controller
     public function index()
     {
         try{
-            $staff = Staff::all();
+            $staff = Staff::where('deleted_at',null)->get();
             return $staff; 
         }catch(Exception $e){
             return $e;
@@ -36,10 +37,11 @@ class StaffController extends Controller
             $valid = $request->validate([
                 'firstName'=>'required|min:2|max:30',
                 'lastName'=>'required|min:2|max:30',
+                'middleName'=>'required|max:30',
                 'gender'=>'required',
                 'usertype'=>'required',
                 'email'=>'required',
-                'contactNumber'=>'required',
+                'contactNumber'=>'required|min:7|max:11',
                 'address'=>'required|max:150',
             ]);
 
@@ -51,6 +53,7 @@ class StaffController extends Controller
             $staff->password = "P@ssw0rd";
             $staff->firstName = $valid['firstName'];
             $staff->lastName = $valid['lastName'];
+            $staff->middleName = $valid['middleName'];
             $staff->gender = $valid['gender'];
             $staff->usertype = $valid['usertype'];
             $staff->email = $valid['email'];
@@ -76,14 +79,14 @@ class StaffController extends Controller
     public function superAdmin(Request $request)
     {
         try{
-
             $valid = $request->validate([
                 'firstName'=>'required|min:2|max:30',
                 'lastName'=>'required|min:2|max:30',
+                'middleName'=>'required|min:0|max:30',
                 'gender'=>'required',
                 'usertype'=>'required',
                 'email'=>'required',
-                'contactNumber'=>'required',
+                'contactNumber'=>'required|min:7|max:11',
                 'address'=>'required|max:150',
             ]);
 
@@ -95,6 +98,7 @@ class StaffController extends Controller
             $staff->password = "P@ssw0rd";
             $staff->firstName = $valid['firstName'];
             $staff->lastName = $valid['lastName'];
+            $staff->middleName = $valid['middleName'];
             $staff->gender = $valid['gender'];
             $staff->usertype = strtoupper($valid['usertype']);
             $staff->email = $valid['email'];
@@ -151,10 +155,11 @@ class StaffController extends Controller
                 'password'=>'required|min:6|max:30',
                 'firstName'=>'required|min:2|max:30',
                 'lastName'=>'required|min:2|max:30',
+                'middleName'=>'required|min:0|max:30',
                 'gender'=>'required',
                 'usertype'=>'required',
                 'email'=>'required',
-                'contactNumber'=>'required',
+                'contactNumber'=>'required|min:7|max:11',
                 'address'=>'required|max:150',
             ]);
 
@@ -163,6 +168,7 @@ class StaffController extends Controller
                 'password' => $valid['password'],
                 'firstName' => $valid['firstName'],
                 'lastName' => $valid['lastName'],
+                'middleName' => $valid['middleName'],
                 'gender' => $valid['gender'],
                 'usertype' => $valid['usertype'],
                 'email' => $valid['email'],
@@ -192,8 +198,11 @@ class StaffController extends Controller
     public function destroy(Staff $staff)
     {
         try{
+            $date = Carbon::now();
 
-            $staff->delete();
+            $staff->update([
+                'deleted_at' => $date,
+            ]);
             
             $response = [
                 'message' => "Staff Successfully Deleted!",

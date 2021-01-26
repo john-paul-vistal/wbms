@@ -15,7 +15,7 @@ class Authentication extends Controller
             $password = $request->password;
     
             $staffLogged = Staff::where('username',$username)->first();
-            
+
             if(!$staffLogged||$staffLogged->password != $password){
                 return "Username or Password is incorrect";
             }
@@ -56,6 +56,6 @@ class Authentication extends Controller
         }
 
 
-
+        
     }
 }

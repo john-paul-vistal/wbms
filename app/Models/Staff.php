@@ -17,10 +17,12 @@ class Staff extends Model
         'password',
         'firstName',
         'lastName',
+        'middleName',
         'gender',
         'usertype',
         'email',
-        'address'
+        'address',
+        'deleted_at'
         ];
         
         protected $hidden = [

@@ -15,7 +15,7 @@ class CustomerController extends Controller
     public function index()
     {
         try{
-            $users = Customer::all();        
+            $users = Customer::where('deleted_at')->get();        
             return $users;
         }catch(Exception $e){
             return $e;
@@ -35,6 +35,7 @@ class CustomerController extends Controller
             $valid = $request->validate([
                 'firstName'=>'required|min:2|max:30',
                 'lastName'=>'required|min:2|max:30',
+                'middleName'=>'required|min:0|max:30',
                 'email'=>'max:80',
                 'address'=>'required|max:150'
             ]);
@@ -44,6 +45,7 @@ class CustomerController extends Controller
 
             $customer->firstName = $valid['firstName'];
             $customer->lastName = $valid['lastName'];
+            $customer->middleName = $valid['middleName'];
             $customer->email = $valid['email'];
             $customer->contactNumber= $request['contactNumber'];
             $customer->address= $valid['address'];
@@ -94,6 +96,7 @@ class CustomerController extends Controller
             $valid = $request->validate([
                 'firstName'=> 'required|max:30|min:2',
                 'lastName'=> 'required|max:30',
+                'middleName'=> 'required|min:0|max:30',
                 'address'=> 'required|max:150',
                 'email'=> 'max:80',
             ]);
@@ -101,6 +104,7 @@ class CustomerController extends Controller
             $customer->update([
                 'firstName' => $valid['firstName'],
                 'lastName' => $valid['lastName'],
+                'middleName' => $valid['middleName'],
                 'email' => $valid['email'],
                 'address' => $valid['address'],
                 'contactNumber' => $request['contactNumber'],
@@ -130,7 +134,12 @@ class CustomerController extends Controller
     {
         try{
 
-            $customer->delete();
+            $date = new Date();
+
+            $customer->update([
+                'deleted_at' => $date,
+            ]);
+
             $response = [
                 'message' => "Customer Successfully Deleted",
                 'status' => 200
