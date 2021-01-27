@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth:sanctum','isadmin']],function(){
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::get('/settings/show/{settings}', [SettingsController::class, 'show']);
     Route::post('/settings/create/', [SettingsController::class, 'store']);
-    Route::put('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
+    Route::delete('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
     Route::put('/settings/update/{settings}', [SettingsController::class, 'update']);
 
     //Staff Route
