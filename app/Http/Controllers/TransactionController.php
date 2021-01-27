@@ -211,11 +211,10 @@ class TransactionController extends Controller
        }
     }
 
-    public function getPendingSpecific(Request $request)
+    public function getPendingSpecific($id)
     {
         try{
-            $customer_id = $request->customer_id;
-            $transactions = Transaction::where('ispaid',false)->where('customer_id', $customer_id)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            $transactions = Transaction::where('ispaid',false)->where('customer_id', $id)->with('customer')->with('recordedBy')->with('transactedBy')->get();
             return $transactions;
        }catch(Exception $e){
            return $e;
@@ -232,11 +231,10 @@ class TransactionController extends Controller
        }
     }
 
-    public function getPaidSpecific()
+    public function getPaidSpecific($id)
     {
         try{
-            $customer_id = $request->customer_id;
-            $transactions = Transaction::where('ispaid',true)->where('customer_id', $customer_id)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            $transactions = Transaction::where('ispaid',true)->where('customer_id', $id)->with('customer')->with('recordedBy')->with('transactedBy')->get();
             return $transactions;
        }catch(Exceptin $e){
            return $e;

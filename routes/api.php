@@ -44,9 +44,9 @@ Route::group(['middleware' => ['auth:sanctum']],function(){
 
     Route::get('/transaction/show/{transaction}', [TransactionController::class, 'show']);
     Route::get('/transaction/paid-transaction', [TransactionController::class, 'getPaid']);
-    Route::post('/transaction/show-paid-transaction', [TransactionController::class, 'getPaidSpecific']);
+    Route::gt('/transaction/show-paid-transaction/{id}', [TransactionController::class, 'getPaidSpecific']);
     Route::get('/transaction/pending-transaction', [TransactionController::class, 'getPending']);
-    Route::post('/transaction/show-pending-transaction', [TransactionController::class, 'getPendingSpecific']);
+    Route::get('/transaction/show-pending-transaction/{id}', [TransactionController::class, 'getPendingSpecific']);
     Route::get('/transaction/show-transactions/{id}', [TransactionController::class, 'showTransactions']);
     Route::get('/transaction/getdataMonthly', [TransactionController::class, 'getDataMonthly']);
     Route::post('/transaction/create/', [TransactionController::class, 'store']);
