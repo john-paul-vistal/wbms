@@ -92,7 +92,7 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function show(Transaction $id)
+    public function show($id)
     {
        try{
             $transaction = Transaction::where('id', $id)->with('customer',"recordedBy","transactedBy")->get();
