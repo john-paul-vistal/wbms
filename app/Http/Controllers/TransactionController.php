@@ -271,10 +271,10 @@ class TransactionController extends Controller
         }
     }
 
-    public function getDataMonthlyByCustomer(Request $request){
+    public function getDataMonthlyByCustomer($id){
         try{
-            $customer_id = $request->customer_id;
-            $transaction = Transaction::where('customer_id', $customer_id )->get()
+          
+            $transaction = Transaction::where('customer_id', $id )->get()
             ->groupBy(function($value){
                 return $value['created_at']->format('Y');
             })->mapToGroups(function($value,$key){
