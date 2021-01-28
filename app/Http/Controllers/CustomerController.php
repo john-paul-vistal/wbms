@@ -15,7 +15,7 @@ class CustomerController extends Controller
     public function index()
     {
         try{
-            $users = Customer::where('deleted_at')->get();        
+            $users = Customer::where('deleted_at', null)->orderBy('created_at', 'DESC')->get();        
             return $users;
         }catch(Exception $e){
             return $e;

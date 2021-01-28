@@ -18,8 +18,15 @@ class TransactionController extends Controller
     {
         try{
 
-            $transactions = Transaction::with('customer',"recordedBy","transactedBy")->get();
-    
+            // $transactions = Transaction::with('customer',"recordedBy","transactedBy")->orderBy('created_at', 'DESC')->get();
+            // Route::get('/jobs', function () {
+            //     $jobs = \App\Job::groupBy('job_id')->get();
+            //     return $jobs->lists('job_id');
+            // });
+
+            $transactions = Transaction::get()->groupBy("customer_id");
+
+        
             return $transactions;
 
         }catch(Exception $e){
@@ -52,9 +59,13 @@ class TransactionController extends Controller
             $settings = Settings::where('settingName','waterRate')->first();
 
             $customer = Customer::where('id',$valid['customer_id'])->first();
-
+            
+            if ($settings == null){
+                $settings['settingName'] = "waterRate";
+                $settings['value'] = 0.55;
+            }
+            
             if($customer){
-
             $transaction->customer_id = $valid['customer_id'];
             $transaction->meterReading = $valid['meterReading'];
             $transaction->total_amount = $valid['meterReading']*$settings['value'];
@@ -62,7 +73,6 @@ class TransactionController extends Controller
             $transaction->due_date = $date->modify('+1 month');
             $transaction->recordedBy = $valid['recordedBy'];
           
-            
             $transaction->save();
             
             $response = [
@@ -205,7 +215,7 @@ class TransactionController extends Controller
      public function getPending()
     {
         try{
-            $transactions = Transaction::where('ispaid',false)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            $transactions = Transaction::where('ispaid',false)->with('customer')->with('recordedBy')->with('transactedBy')->orderBy('created_at', 'DESC')->get();
             return $transactions;
        }catch(Exception $e){
            return $e;
@@ -225,7 +235,7 @@ class TransactionController extends Controller
     public function getPaid()
     {
         try{
-            $transactions = Transaction::where('ispaid',true)->with('customer')->with('recordedBy')->with('transactedBy')->get();
+            $transactions = Transaction::where('ispaid',true)->with('customer')->with('recordedBy')->with('transactedBy')->orderBy('created_at', 'DESC')->get();
             return $transactions;
        }catch(Exceptin $e){
            return $e;

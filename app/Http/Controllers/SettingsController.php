@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\Settings;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,8 @@ class SettingsController extends Controller
     public function index()
     {
         try{
-            $settings = Settings::all() ;        
+
+            $settings = Settings::where('deleted_at',null)->orderBy('created_at', 'DESC')->get();  
             return $settings;
         }catch(Exception $e){
             return $e;
@@ -118,11 +119,14 @@ class SettingsController extends Controller
     public function destroy(Settings $settings)
     {
         try{
+            $date = Carbon::now();
 
-            $settings->delete();
+            $settings->update([
+                'deleted_at' => $date,
+            ]);
             
             $response = [
-                'message' => "Successfully Deleted!",
+                'message' => "Settings Successfully Deleted!",
                 'status' => 200
             ];
 

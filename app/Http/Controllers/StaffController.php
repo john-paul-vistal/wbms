@@ -16,7 +16,7 @@ class StaffController extends Controller
     public function index()
     {
         try{
-            $staff = Staff::where('deleted_at',null)->get();
+            $staff = Staff::where('deleted_at',null)->orderBy('created_at', 'DESC')->get();
             return $staff; 
         }catch(Exception $e){
             return $e;

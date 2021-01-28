@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Authentication;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -62,15 +63,13 @@ Route::group(['middleware' => ['auth:sanctum','isadmin']],function(){
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::get('/settings/show/{settings}', [SettingsController::class, 'show']);
     Route::post('/settings/create/', [SettingsController::class, 'store']);
-    Route::delete('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
+    Route::put('/settings/delete/{settings}', [SettingsController::class, 'destroy']);
     Route::put('/settings/update/{settings}', [SettingsController::class, 'update']);
 
     //Staff Route
     Route::post('/staff/create',[StaffController::class,'store']);
     Route::put('/staff/delete/{staff}',[StaffController::class,'destroy']);
 });
-
-
 
 
 
