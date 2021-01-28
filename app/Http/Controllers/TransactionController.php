@@ -17,15 +17,7 @@ class TransactionController extends Controller
     public function index()
     {
         try{
-
-            // $transactions = Transaction::with('customer',"recordedBy","transactedBy")->orderBy('created_at', 'DESC')->get();
-            // Route::get('/jobs', function () {
-            //     $jobs = \App\Job::groupBy('job_id')->get();
-            //     return $jobs->lists('job_id');
-            // });
-
-            $transactions = Transaction::get()->groupBy("customer_id");
-
+            $transactions = Transaction::with('customer',"recordedBy","transactedBy")->orderBy('created_at', 'DESC')->get();
         
             return $transactions;
 
@@ -215,7 +207,8 @@ class TransactionController extends Controller
      public function getPending()
     {
         try{
-            $transactions = Transaction::where('ispaid',false)->with('customer')->with('recordedBy')->with('transactedBy')->orderBy('created_at', 'DESC')->get();
+            $transactions = Transaction::where('ispaid', false)->with('customer')->with('recordedBy')->with('transactedBy')->orderBy('created_at', 'DESC')->get()->groupBy("customer_id");
+            // $transactions = Transaction::where('ispaid',false)->with('customer')->with('recordedBy')->with('transactedBy')->orderBy('created_at', 'DESC')->get();
             return $transactions;
        }catch(Exception $e){
            return $e;
